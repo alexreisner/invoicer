@@ -1,6 +1,6 @@
 = Invoicer
 
-This is a very simple system for creating nice invoices to send to clients without using any desktop publishing software.
+This is a very simple system for creating nice PDF invoices to send to clients without using HTML and CSS instead of desktop publishing software.
 
 
 == Installation
