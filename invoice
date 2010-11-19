@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+#
+# Generate a PDF invoice.
+#
+# Requires the wkhtmltopdf binary to be installed on the system.
+#
+require 'date'
+require 'erb'
+
+# setup filenames
+dir      = File.expand_path(File.dirname(__FILE__))
+datafile = File.join(dir, "data", "#{ARGV[0]}.rb")
+
+# get data
+if File.exist?(datafile)
+  require datafile
+else
+  puts "Please enter the name of a data file (without the path or .rb extension)."
+  exit 1
+end
+
+# setup remaining filenames
+tmpfile  = File.join(dir, "tmp.html")
+outfile  = File.join(dir, "pdf", @outfile)
+
+# render template
+html = ERB.new(File.read(File.join(dir, "templates", @template))).result(binding)
+
+# render HTML, convert to PDF, delete HTML
+File.open(tmpfile, 'w') { |f| f.write(html) }
+`\`which wkhtmltopdf\` #{tmpfile} #{outfile}`
+File.delete(tmpfile)

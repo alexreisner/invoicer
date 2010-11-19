@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Alex Reisner - Invoice</title>
+  <link href="stylesheets/sample.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+  <h1 class="centered uppercase">
+    <span class="very-big">Your Name</span>
+    <span class="left-margin">872 Pleasant Ave</span>
+    <span class="left-margin">Windy Town, PA 23232</span>
+  </h1>
+
+  <div style="float:left">
+    <%= @client %><br />
+    <%= @address.gsub("\n", "<br />") %>
+  </div>
+
+  <div style="float:right; text-align:right">
+    <h2 class="no-margin">Invoice</h2>
+    <%= @date.strftime "%B %d, %Y" %>
+  </div>
+
+  <br style="clear:both" />
+
+  <table style="margin-top: 100px">
+    <tr>
+      <th>Date</th>
+      <th>Item</th>
+      <th class="numeric">Rate</th>
+      <th class="numeric">Hours</th>
+      <th class="numeric">Total</th>
+    </tr>
+
+    <% for r in @rows %>
+    <tr>
+      <td><%= r[0] %></td>
+      <td><%= r[1] %></td>
+      <td class="numeric">$<%= r[2] %></td>
+      <td class="numeric"><%= r[3] %></td>
+      <td class="numeric">$<%= r[2] * r[3] %></td>
+    </tr>
+    <% end %>
+
+    <tr class="bold totals-row">
+      <td colspan="4">Total</td>
+      <td class="numeric">$<%= @rows.inject(0){ |tot,r| tot + r[2] * r[3] } %></td>
+    </tr>
+  </table>
+
+</body>
+</html>

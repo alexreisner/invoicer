@@ -1,0 +1,36 @@
+= Invoicer
+
+This is a very simple system for creating nice invoices to send to clients without using any desktop publishing software.
+
+
+== Installation
+
+Clone the Git repository:
+
+  git clone git://github.com/alexreisner/invoicer.git
+
+Install the +wkhtmltopdf+ command line utility. On Ubuntu this is as simple as:
+
+  sudo apt-get install wkhtmltopdf
+
+If your package manager doesn't have it, just download a binary from the project's site (Downloads tab):
+
+  http://code.google.com/p/wkhtmltopdf/
+
+
+== Usage
+
+To design an invoice, create a HTML file (and optional CSS file) that renders the way you want it to in a WebKit-based browser. Put the HTML template (which will be processed as ERb) in the +templates+ directory, and any CSS files in the +stylesheets+ directory (be sure to include the usual +link+ tag in your HTML header). You will probably want to use variables for inserting data that will change from one invoice to another, such as the client name and address, and the actual billable items and prices. You should then create a plain Ruby script (with .rb extension) in the root directory that sets values for those variables. This should be the only file you need to edit on a regular basis, once you've established the design of your invoice.
+
+Your data file *must* define the following instance variables:
+
+  @template # the filename of your ERb template
+  @outfile  # the filename for the PDF output
+
+To render an invoice run the +invoice+ script with a single argument: the basename (no extension) of the desired datafile:
+
+  ./invoice <datafile_basename>
+
+Samples are provided for the HTML, CSS, and data files. Simply copy and rename them to get started quickly. To render the sample invoice:
+
+  ./invoice sample
